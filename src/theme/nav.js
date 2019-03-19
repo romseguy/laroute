@@ -107,7 +107,8 @@ export default {
       }
     },
     padding: {
-      default: "0.5rem"
+      default: "0"
+      //default: "0.5rem"
     },
     borderRadius: utils.borderRadius,
     border: utils.border
@@ -141,8 +142,10 @@ export default {
       }
     },
     padding: {
-      brandTop: "0.3125rem",
-      brandBottom: "0.3125rem"
+      brandTop: "0",
+      brandBottom: "0"
+      // brandTop: "0.3125rem",
+      // brandBottom: "0.3125rem"
     },
     fontSize: utils.fontSize
   }

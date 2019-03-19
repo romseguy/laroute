@@ -9,8 +9,7 @@ import styled from "styled-components";
 
 const NavLink = styled(NavbarLink)`
   cursor: pointer;
-  padding: 0;
-  margin: 1rem;
+  margin: 1rem 1rem 1rem 0;
   :hover {
     color: ${props => props.theme.navbarLink.colors.default.colorHoverFocus};
   }
@@ -26,7 +25,7 @@ export const NavbarLight = ({ image, location, title }) => {
       <Navbar expandSm light>
         <Container fluid>
           {title && <Heading>{title}</Heading>}
-          {image && <img src={image}/>}
+          {image && <img src={image} />}
         </Container>
         <Nav start="true">
           {!hideLinks && (

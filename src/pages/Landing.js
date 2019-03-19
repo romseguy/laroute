@@ -1,41 +1,32 @@
 import { loremIpsum } from "lorem-ipsum";
 import React, { useState } from "react";
-import { Flex, Box, Button } from "rebass";
+import { Flex, Box, Button, Heading } from "rebass";
 import styled from "styled-components";
 import Link from "../components/AppLink";
 import ContactForm from "../components/ContactForm";
-const text = loremIpsum({ count: 10 });
+const text = loremIpsum({ count: 9 });
 
 const Landing = () => {
-  const [showForm, setShowForm] = useState(false);
-
   return (
-    <div style={{ margin: "20px" }}>
-      {text}
+    <div>
+      <Box py={2}>{text}</Box>
 
       <div style={{ textAlign: "center" }}>
         <Link to="/accueil">
-          <Button variant="primary">Je suis intéressé</Button>
+          <Button variant="primary">Continuer</Button>
         </Link>
       </div>
 
-      <div
-        style={{
-          textAlign: "center",
-          marginTop: "20px",
-          marginBottom: "20px"
-        }}
-      >
-        <Button
-          variant="outline"
-          onClick={() => setShowForm(true)}
-          style={{ cursor: "pointer" }}
-        >
-          Je ne suis pas intéressé, je laisse un avis
-        </Button>
-      </div>
+      <hr />
 
-      {showForm && <ContactForm />}
+      <Heading fontSize={[2, 2, 3]}>
+        Mais avant, faites nous part de vos suggestions, remarques, et autres
+        idées !
+      </Heading>
+
+      <hr />
+
+      <ContactForm />
     </div>
   );
 };

@@ -40,12 +40,6 @@ const RegisterForm = ({ session }) => {
           <input {...inputs.text("prenom")} required />
         </Flex>
 
-        <Flex width={1} style={{ marginBottom: "10px" }} flexWrap="wrap">
-          <label>E-mail</label>
-
-          <input {...inputs.email("email")} />
-        </Flex>
-
         <Flex width={1} flexWrap="wrap">
           <label>Votre présentation</label>
 

@@ -1,12 +1,16 @@
 import "react-responsive-tabs/styles.css";
 import { loremIpsum } from "lorem-ipsum";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Tabs from "react-responsive-tabs";
 import { Flex, Box, Button, Heading } from "rebass";
 import { format } from "date-fns";
 import RegisterForm from "../components/RegisterForm";
+import LoginButton from "../components/LoginButton";
+import { UserCtx } from "../contexts";
 
 const After = () => {
+  const { user } = useContext(UserCtx);
+
   const sessions = [
     {
       title: 1,
@@ -33,7 +37,15 @@ const After = () => {
 
             <Box p={4}>{session.text}</Box>
 
-            <RegisterForm session={session} />
+            {user ? (
+              <RegisterForm session={session} />
+            ) : (
+              <Box width={1}>
+                <LoginButton variant="primary" width={1}>
+                  Vous devez vous connecter pour vous inscrire à cette session
+                </LoginButton>
+              </Box>
+            )}
           </Flex>
         ),
         tabClassName: "tab",

@@ -10,12 +10,14 @@ const theme = {
   buttons: {
     primary: {
       color: "#fff",
-      backgroundColor: "blue"
+      backgroundColor: "blue",
+      cursor: "pointer"
     },
     outline: {
       color: "blue",
       backgroundColor: "transparent",
-      boxShadow: "inset 0 0 0 2px"
+      boxShadow: "inset 0 0 0 2px",
+      cursor: "pointer"
     }
   },
   fonts: {

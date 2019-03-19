@@ -13,6 +13,7 @@ import { NavbarLight } from "./components/NavBar";
 import Landing from "./pages/Landing";
 import Home from "./pages/Home";
 import * as Sessions from "./pages/Sessions";
+import LoginButton from "./components/LoginButton";
 
 const NotFound = () => (
   <div>
@@ -22,7 +23,7 @@ const NotFound = () => (
   </div>
 );
 
-const AppStyles = styled.div`
+const AppContainer = styled.div`
   font-family: ${props => props.theme.container.fontFamily.default};
   max-width: ${props => props.theme.screenSize.md};
   margin: 0 auto;
@@ -42,32 +43,39 @@ export default function App(props) {
       <UserCtx.Provider value={identity}>
         <Normalize />
         <BootstrapBaseCss />
-        <AppStyles>
-          <Location>
-            {({ location }) => {
-              return (
+
+        <Location>
+          {({ location }) => {
+            return (
+              <AppContainer>
+                <Flex alignItems="center" my={2}>
+                  <Heading>Sur les chemins du partage</Heading>
+                  <Box mx="auto" />
+                  {location.pathname !== "/" && <LoginButton />}
+                </Flex>
+
                 <NavbarLight
                   location={location}
                   image={require("./assets/banner.jpg")}
                 />
-              );
-            }}
-          </Location>
 
-          <Router>
-            <Landing path="/" />
+                <Router>
+                  <Landing path="/" />
 
-            <Sessions.Wrapper path="sessions">
-              <Sessions.Before path="avant" />
-              <Sessions.After path="apres" />
-              <NotFound default />
-            </Sessions.Wrapper>
+                  <Sessions.Wrapper path="sessions">
+                    <Sessions.Before path="avant" />
+                    <Sessions.After path="apres" />
+                    <NotFound default />
+                  </Sessions.Wrapper>
 
-            <Home path="/accueil" />
+                  <Home path="/accueil" />
 
-            <NotFound default />
-          </Router>
-        </AppStyles>
+                  <NotFound default />
+                </Router>
+              </AppContainer>
+            );
+          }}
+        </Location>
         {/* {identity.user && (
             <Router>
               <AllLists path="/" />
