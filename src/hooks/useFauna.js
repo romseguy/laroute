@@ -5,8 +5,88 @@ const faunadb = require("faunadb");
 const q = faunadb.query;
 
 export default function useFauna() {
+  const [isLoading, load] = useLoading();
+  const [client, setClient] = useProduceState(null, onClientChange);
+
+  const onAuthChange = async faunadb_token => {
+    if (!faunadb_token) return null;
+
+    const _client = new faunadb.Client({
+      secret: faunadb_token
+    });
+
+    setClient(_client);
+    return _client;
+  };
+
+  const onClientChange = (_client = client) => {
+    if (!_client) return null;
+
+    // return new Promise(resolve => setTimeout(resolve, 2000));
+    return Promise.resolve();
+  };
+
+  const addSessionRegistration = session => sessionRegistration => {
+    let newSessionRegistration = {
+      ...sessionRegistration,
+      session: session.id
+    };
+
+    const me = q.Select("ref", q.Get(q.Ref("classes/users/self")));
+    newSessionRegistration.user = me;
+
+    return client.query(
+      q.Create(q.Ref("classes/sessionRegistrations"), {
+        data: newSessionRegistration,
+        permissions: {
+          read: me,
+          write: me
+        }
+      })
+    );
+  };
+
+  const listSessionRegistrations = async () => {
+    if (client) {
+      let { data } = await client.query(
+        q.Map(q.Paginate(q.Match(q.Index("all_sessionRegistrations"))), ref =>
+          q.Get(ref)
+        )
+      );
+
+      data = data.map(({ data }) => data);
+
+      const userPromises = data.map(row => {
+        return client
+          .query(q.Get(row.user))
+          .then(({ data: { user_metadata } }) => user_metadata);
+      });
+
+      const users = await Promise.all(userPromises);
+
+      return data.map((row, index) => {
+        return {
+          ...row,
+          user: users[index]
+        };
+      });
+    }
+  };
+
+  return {
+    client,
+    addSessionRegistration,
+    listSessionRegistrations,
+    onAuthChange,
+    onClientChange,
+    load,
+    isLoading
+  };
+}
+
+/*
+function useFaunaBack() {
   const [lists, setLists] = React.useState([]);
-  const [client, setClient] = useProduceState(null, getServerLists);
   const [isLoading, load] = useLoading();
   const onAuthChange = async faunadb_token => {
     if (!faunadb_token) return null;
@@ -178,3 +258,4 @@ export default function useFauna() {
     client
   };
 }
+*/

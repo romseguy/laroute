@@ -1,12 +1,12 @@
 import React, { useContext } from "react";
-import { Button } from "rebass";
 import { UserCtx } from "../contexts";
+import Button from "./Button";
 
 function LoginButton({ children, variant, ...rebassProps }) {
   const { user, doLogin, doLogout } = useContext(UserCtx);
   const actionForm = (
     <span>
-      <Button onClick={doLogin} variant={variant || "primary"} {...rebassProps}>
+      <Button onClick={doLogin} variant={variant} {...rebassProps}>
         {children || "Se connecter ou créer un compte"}
       </Button>
     </span>

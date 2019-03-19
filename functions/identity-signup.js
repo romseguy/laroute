@@ -1,6 +1,6 @@
-'use strict';
-const faunadb = require('faunadb');
-const generator = require('generate-password');
+"use strict";
+const faunadb = require("faunadb");
+const generator = require("generate-password");
 
 /* configure faunaDB Client with our secret */
 const q = faunadb.query;
@@ -11,7 +11,7 @@ const client = new faunadb.Client({
 /* create a user in FaunaDB that can connect from the browser */
 function createUser(userData, password) {
   return client.query(
-    q.Create(q.Class('users'), {
+    q.Create(q.Class("users"), {
       credentials: {
         password: password
       },
@@ -24,7 +24,7 @@ function createUser(userData, password) {
 }
 
 function obtainToken(user, password) {
-  return client.query(q.Login(q.Select('ref', user), { password }));
+  return client.query(q.Login(q.Select("ref", user), { password }));
 }
 
 export function handler(event, context, callback) {
@@ -45,7 +45,7 @@ export function handler(event, context, callback) {
           app_metadata: {
             faunadb_token: key.secret
             // we discard the credential, and can create a new one if we ever need a new token
-            // faunadb_credential : password
+            // faunadb_credential: password
           }
         })
       })

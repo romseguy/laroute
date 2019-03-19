@@ -1,56 +1,60 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { useFormState } from "react-use-form-state";
-import { Flex, Box, Button } from "rebass";
+import { Flex, Box, Card } from "rebass";
 import styled from "styled-components";
 import { FaunaCtx, UserCtx } from "../contexts";
+import Button from "./Button";
+import Text from "./Text";
+
+const RegisterButton = styled(Button)`
+  ${props =>
+    props.disabled ? props.theme.buttons.disabled : props.theme.buttons.primary}
+`;
 
 const Form = styled.form`
   input,
-  textarea {
+  textarea,
+  label {
     width: 100%;
   }
 `;
 
 const RegisterForm = ({ session }) => {
-  const {
-    fetchList,
-    isLoading,
-    client,
-    addTodo,
-    toggle,
-    destroy,
-    load,
-    clearCompleted,
-    save
-  } = useContext(FaunaCtx);
+  const { addSessionRegistration, load, isLoading } = useContext(FaunaCtx);
+  const [error, setError] = useState(null);
+  const [response, setResponse] = useState(null);
 
   const [formState, inputs] = useFormState();
-  const onSubmit = e => {
-    save(formState);
+  const onSubmit = async e => {
     e.preventDefault();
-    console.log(formState);
+    try {
+      const res = await load(addSessionRegistration(session)(formState.values));
+      setResponse(res);
+    } catch (err) {
+      setError(err);
+    }
   };
 
   return (
     <Form onSubmit={onSubmit}>
       <Flex flexWrap="wrap">
-        <Flex width={1} style={{ marginBottom: "10px" }} flexWrap="wrap">
-          <label>Prénom</label>
-
-          <input {...inputs.text("prenom")} required />
-        </Flex>
-
-        <Flex width={1} flexWrap="wrap">
-          <label>Votre présentation</label>
-
+        <label>
+          Votre présentation
           <textarea {...inputs.textarea("message")} required rows={10} />
+        </label>
+
+        <Flex justifyContent="center" width={1} my={2}>
+          <RegisterButton disabled={isLoading}>
+            Envoyer votre demande d'inscription à la session {session.title}
+          </RegisterButton>
         </Flex>
 
-        <Flex justifyContent="center" width={1} style={{ marginTop: "10px" }}>
-          <Button>
-            Envoyer votre demande d'inscription à la session {session.title}
-          </Button>
-        </Flex>
+        {response && (
+          <Text color="green">
+            Votre demande d'inscription a bien été envoyée
+          </Text>
+        )}
+        {error && <p>Une erreur est survenue {error}</p>}
       </Flex>
     </Form>
   );

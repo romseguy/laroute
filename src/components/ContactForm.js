@@ -1,12 +1,14 @@
 import React, { useContext } from "react";
 import { useFormState } from "react-use-form-state";
-import { Flex, Box, Button } from "rebass";
+import { Flex, Box } from "rebass";
 import styled from "styled-components";
+import Button from "../components/Button";
 import { UserCtx } from "../contexts";
 
 const Form = styled.form`
   input,
-  textarea {
+  textarea,
+  label {
     width: 100%;
   }
 `;
@@ -22,19 +24,19 @@ const ContactForm = () => {
   return (
     <Form onSubmit={onSubmit}>
       <Flex flexWrap="wrap">
-        <label style={{ width: "100%" }}>
+        <label>
           Prénom
           <input {...inputs.text("prenom")} required />
         </label>
 
         {!user && (
-          <label style={{ width: "100%" }}>
+          <label>
             Adresse e-mail, si vous souhaitez être recontacté
             <input {...inputs.email("email")} />
           </label>
         )}
 
-        <label style={{ width: "100%" }}>
+        <label>
           Votre texte
           <textarea {...inputs.textarea("message")} required rows={10} />
         </label>

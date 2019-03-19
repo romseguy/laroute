@@ -31,12 +31,17 @@ const AppContainer = styled.div`
 
 export default function App(props) {
   const fauna = useFauna();
-  const { load, onAuthChange, getServerLists } = fauna;
+  const { load, isLoading, onAuthChange, onClientChange } = fauna;
+
   const identity = useNetlifyIdentity(faunadb_token => {
     onAuthChange(faunadb_token).then(_client => {
-      if (_client) load(getServerLists(_client));
+      if (_client) {
+        return load(onClientChange(_client));
+      }
     });
   });
+
+  console.log(identity.user);
 
   return (
     <FaunaCtx.Provider value={fauna}>
@@ -65,6 +70,7 @@ export default function App(props) {
                   <Sessions.Wrapper path="sessions">
                     <Sessions.Before path="avant" />
                     <Sessions.After path="apres" />
+                    <Sessions.Registrations path="demandes" />
                     <NotFound default />
                   </Sessions.Wrapper>
 
@@ -76,22 +82,23 @@ export default function App(props) {
             );
           }}
         </Location>
-        {/* {identity.user && (
-            <Router>
-              <AllLists path="/" />
-              <Wrapper path="list">
-                <List path=":listId" />
-                <List path=":listId/active" />
-                <List path=":listId/completed" />
-                <NotFound default />
-              </Wrapper>
-              <NotFound default />
-            </Router>
-          )} */}
       </UserCtx.Provider>
     </FaunaCtx.Provider>
   );
 }
+
+/* {identity.user && (
+  <Router>
+    <AllLists path="/" />
+    <Wrapper path="list">
+      <List path=":listId" />
+      <List path=":listId/active" />
+      <List path=":listId/completed" />
+      <NotFound default />
+    </Wrapper>
+    <NotFound default />
+  </Router>
+)} */
 
 // import Footer from "./components/Footer";
 // import Spinner from "./components/Spinner";

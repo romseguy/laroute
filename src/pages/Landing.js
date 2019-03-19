@@ -1,8 +1,9 @@
 import { loremIpsum } from "lorem-ipsum";
 import React, { useState } from "react";
-import { Flex, Box, Button, Heading } from "rebass";
+import { Flex, Box, Heading } from "rebass";
 import styled from "styled-components";
 import Link from "../components/AppLink";
+import Button from "../components/Button";
 import ContactForm from "../components/ContactForm";
 const text = `Auriez-vous envie de partager 3 semaines à vagabonder, randonner sur un parcours mêlant randonné, découverte de lieux alternatifs, découverte de savoirs faires responsables, paysages et divers divertissements dans le partage ?`;
 
@@ -13,7 +14,7 @@ const Landing = () => {
 
       <div style={{ textAlign: "center" }}>
         <Link to="/accueil">
-          <Button variant="primary">Continuer</Button>
+          <Button>Continuer</Button>
         </Link>
       </div>
 

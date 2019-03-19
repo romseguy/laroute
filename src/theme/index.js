@@ -1,6 +1,7 @@
 import { button } from "./button";
 import { container } from "./container";
 import nav from "./nav";
+import { colors } from "./colors";
 
 const theme = {
   breakpoints: ["40em", "52em", "64em"],
@@ -9,9 +10,23 @@ const theme = {
   space: [0, 4, 8, 16, 32, 64, 128, 256],
   buttons: {
     primary: {
+      "&:hover": {
+        color: "blue",
+        backgroundColor: "transparent",
+        boxShadow: "inset 0 0 0 2px",
+        cursor: "pointer"
+      },
       color: "#fff",
       backgroundColor: "blue",
       cursor: "pointer"
+    },
+    disabled: {
+      "&:hover": {
+        backgroundColor: "grey",
+        color: "white",
+        cursor: "not-allowed"
+      },
+      backgroundColor: "grey"
     },
     outline: {
       color: "blue",
@@ -30,6 +45,7 @@ const theme = {
   },
 
   // https://github.com/aichbauer/styled-bootstrap-components
+  colors,
   button,
   container,
   ...nav
