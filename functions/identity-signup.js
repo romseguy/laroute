@@ -17,6 +17,7 @@ function createUser(userData, password) {
       },
       data: {
         id: userData.id,
+        email: userData.email,
         user_metadata: userData.user_metadata
       }
     })

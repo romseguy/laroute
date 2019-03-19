@@ -46,6 +46,29 @@ export default function useFauna() {
     );
   };
 
+  const unwrapUsers = async data => {
+    data = data.map(({ data }) => data);
+
+    const userPromises = data.map(row => {
+      return client.query(q.Get(row.user)).then(user => {
+        console.log(user);
+        const {
+          data: { user_metadata }
+        } = user;
+        return user_metadata;
+      });
+    });
+
+    const users = await Promise.all(userPromises);
+
+    return data.map((row, index) => {
+      return {
+        ...row,
+        user: users[index]
+      };
+    });
+  };
+
   const listSessionRegistrations = async () => {
     if (client) {
       let { data } = await client.query(
@@ -54,28 +77,32 @@ export default function useFauna() {
         )
       );
 
-      data = data.map(({ data }) => data);
+      return unwrapUsers(data);
+    }
+  };
 
-      const userPromises = data.map(row => {
-        return client
-          .query(q.Get(row.user))
-          .then(({ data: { user_metadata } }) => user_metadata);
-      });
+  const getSessionRegistrations = async sessionId => {
+    if (client) {
+      let { data } = await client.query(
+        q.Map(
+          q.Paginate(
+            q.Match(
+              q.Index("sessionRegistration_by_session"),
+              Number(sessionId)
+            )
+          ),
+          ref => q.Get(ref)
+        )
+      );
 
-      const users = await Promise.all(userPromises);
-
-      return data.map((row, index) => {
-        return {
-          ...row,
-          user: users[index]
-        };
-      });
+      return unwrapUsers(data);
     }
   };
 
   return {
     client,
     addSessionRegistration,
+    getSessionRegistrations,
     listSessionRegistrations,
     onAuthChange,
     onClientChange,

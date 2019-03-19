@@ -73,12 +73,22 @@ const Before = () => {
 };
 
 const Registrations = () => {
-  const { client, listSessionRegistrations } = useContext(FaunaCtx);
+  const {
+    client,
+    getSessionRegistrations,
+    listSessionRegistrations
+  } = useContext(FaunaCtx);
   const [sessionRegistrations, setSessionRegistrations] = useState();
+  const [currentIndex, setCurrentIndex] = useState();
+  const [currentSession, setCurrentSession] = useState(sessions[0]);
 
   useEffect(
-    () => void listSessionRegistrations().then(setSessionRegistrations),
-    [client]
+    () =>
+      void getSessionRegistrations(currentSession.id).then(
+        setSessionRegistrations
+      ),
+    //void listSessionRegistrations().then(setSessionRegistrations),
+    [client, currentIndex]
   );
 
   const getTabs = () => {
@@ -103,8 +113,18 @@ const Registrations = () => {
                         width={1}
                         key={key}
                       >
-                        {sessionRegistration.message} par{" "}
-                        {sessionRegistration.user.full_name}
+                        <Card>{sessionRegistration.message}</Card>
+                        <Flex justifyContent="flex-end">
+                          <Card
+                            mt={2}
+                            borderRadius={2}
+                            p={1}
+                            bg="white"
+                            width="1/2"
+                          >
+                            envoyé par {sessionRegistration.user.full_name}
+                          </Card>
+                        </Flex>
                       </SessionRegistrationCard>
                     );
                   })}
@@ -119,7 +139,16 @@ const Registrations = () => {
 
   return (
     <div>
-      <Tabs items={getTabs()} transformWidth={768} />
+      <Tabs
+        items={getTabs()}
+        transformWidth={768}
+        selectedTabKey={currentIndex}
+        onChange={index => {
+          setCurrentSession(sessions[index]);
+          setSessionRegistrations(undefined);
+          setCurrentIndex(index);
+        }}
+      />
     </div>
   );
 };

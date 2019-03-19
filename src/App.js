@@ -29,6 +29,15 @@ const AppContainer = styled.div`
   margin: 0 auto;
 `;
 
+const PrivateRoute = ({ as: Comp, identity, ...props }) => {
+  if (!identity || !identity.user) {
+    navigate("/accueil");
+    return <Home />;
+  }
+
+  return <Comp {...props} />;
+};
+
 export default function App(props) {
   const fauna = useFauna();
   const { load, isLoading, onAuthChange, onClientChange } = fauna;
@@ -70,7 +79,7 @@ export default function App(props) {
                   <Sessions.Wrapper path="sessions">
                     <Sessions.Before path="avant" />
                     <Sessions.After path="apres" />
-                    <Sessions.Registrations path="demandes" />
+                    <PrivateRoute as={Sessions.Registrations} path="demandes" />
                     <NotFound default />
                   </Sessions.Wrapper>
 

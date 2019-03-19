@@ -89,6 +89,18 @@ function createFaunaDB(key) {
               unique: true
             }),
             q.CreateIndex({
+              name: "sessionRegistration_by_session",
+              source: q.Class("sessionRegistrations"),
+              terms: [
+                {
+                  field: ["data", "session"]
+                }
+              ],
+              permissions: {
+                read: q.Class("users")
+              }
+            }),
+            q.CreateIndex({
               // this index is optional but useful in development for browsing users
               name: `all_users`,
               source: q.Class("users")
