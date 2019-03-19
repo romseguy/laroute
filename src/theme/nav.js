@@ -12,16 +12,17 @@ export default {
       light: {
         color: colors.navbarLightColor,
         borderColor: colors.navbarLightBorderColor,
-        backgroundColor: colors.gray100
+        backgroundColor: colors.white
       },
       default: {
         color: colors.navbarLightColor,
         borderColor: colors.navbarLightBorderColor,
-        backgroundColor: colors.gray100
+        backgroundColor: colors.white
       }
     },
     padding: {
-      default: "0.5rem 1rem"
+      // default: "0.5rem 1rem"
+      default: "0"
     }
   },
 

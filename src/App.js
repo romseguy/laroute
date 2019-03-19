@@ -6,9 +6,9 @@ import { Flex, Box, Button, Heading } from "rebass";
 import { Container } from "styled-container-component";
 import styled from "styled-components";
 import { Reset } from "styled-reset";
-import useFauna from "hooks/useFauna";
-import useNetlifyIdentity from "hooks/useNetlifyIdentity";
-import { FaunaCtx, UserCtx } from "contexts";
+import useFauna from "./hooks/useFauna";
+import useNetlifyIdentity from "./hooks/useNetlifyIdentity";
+import { FaunaCtx, UserCtx } from "./contexts";
 import { NavbarLight } from "./components/NavBar";
 import Landing from "./pages/Landing";
 import Home from "./pages/Home";
@@ -24,6 +24,8 @@ const NotFound = () => (
 
 const AppStyles = styled.div`
   font-family: ${props => props.theme.container.fontFamily.default};
+  max-width: ${props => props.theme.screenSize.md};
+  margin: 0 auto;
 `;
 
 export default function App(props) {
@@ -43,7 +45,12 @@ export default function App(props) {
         <AppStyles>
           <Location>
             {({ location }) => {
-              return <NavbarLight location={location} title="NOM DU SITE" />;
+              return (
+                <NavbarLight
+                  location={location}
+                  image={require("./assets/banner.jpg")}
+                />
+              );
             }}
           </Location>
 

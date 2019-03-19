@@ -1,7 +1,7 @@
-import React from 'react';
+import React from "react";
 
-import { useLoading, useProduceState } from '@swyx/hooks';
-const faunadb = require('faunadb');
+import { useLoading, useProduceState } from "@swyx/hooks";
+const faunadb = require("faunadb");
 const q = faunadb.query;
 
 export default function useFauna() {
@@ -26,7 +26,7 @@ export default function useFauna() {
           q.Paginate(
             q.Match(
               // todo use lists_by_owner
-              q.Ref('indexes/all_lists')
+              q.Ref("indexes/all_lists")
             )
           ),
           ref => q.Get(ref)
@@ -35,14 +35,14 @@ export default function useFauna() {
       .then(r => {
         if (r.data.length === 0) {
           // create the first list for the user
-          const me = q.Select('ref', q.Get(q.Ref('classes/users/self')));
+          const me = q.Select("ref", q.Get(q.Ref("classes/users/self")));
 
           return client
             .query(
-              q.Create(q.Class('lists'), {
+              q.Create(q.Class("lists"), {
                 data: {
-                  title: 'Default Todo List',
-                  owner: q.Select('ref', q.Get(q.Ref('classes/users/self')))
+                  title: "Default Todo List",
+                  owner: q.Select("ref", q.Get(q.Ref("classes/users/self")))
                 },
                 permissions: {
                   read: me,
@@ -59,9 +59,9 @@ export default function useFauna() {
 
   const fetchList = async id => {
     if (client) {
-      const _list = await client.query(q.Get(q.Ref('classes/lists/' + id)));
+      const _list = await client.query(q.Get(q.Ref("classes/lists/" + id)));
       const resp = await client.query(
-        q.Map(q.Paginate(q.Match(q.Index('todos_by_list'), _list.ref)), ref =>
+        q.Map(q.Paginate(q.Match(q.Index("todos_by_list"), _list.ref)), ref =>
           q.Get(ref)
         )
       );
@@ -71,11 +71,11 @@ export default function useFauna() {
 
   const addList = title => {
     var newList = { title };
-    const me = q.Select('ref', q.Get(q.Ref('classes/users/self')));
+    const me = q.Select("ref", q.Get(q.Ref("classes/users/self")));
     newList.owner = me;
     return client
       .query(
-        q.Create(q.Class('lists'), {
+        q.Create(q.Class("lists"), {
           data: newList,
           permissions: {
             read: me,
@@ -86,6 +86,8 @@ export default function useFauna() {
       .then(() => getServerLists(client));
   };
 
+  // const addSessionRegistration = (session, id) =>
+
   const addTodo = (list, id) => title => {
     var newTodo = {
       title: title,
@@ -93,11 +95,11 @@ export default function useFauna() {
       completed: false
     };
 
-    const me = q.Select('ref', q.Get(q.Ref('classes/users/self')));
+    const me = q.Select("ref", q.Get(q.Ref("classes/users/self")));
     newTodo.user = me;
     return client
       .query(
-        q.Create(q.Ref('classes/todos'), {
+        q.Create(q.Ref("classes/todos"), {
           data: newTodo,
           permissions: {
             read: me,
@@ -148,10 +150,10 @@ export default function useFauna() {
   const clearCompleted = (list, id) => {
     return client
       .query(
-        q.Map(q.Paginate(q.Match(q.Index('todos_by_list'), list.ref)), ref =>
+        q.Map(q.Paginate(q.Match(q.Index("todos_by_list"), list.ref)), ref =>
           q.If(
-            q.Select(['data', 'completed'], q.Get(ref)),
-            q.Delete(q.Select('ref', q.Get(ref))),
+            q.Select(["data", "completed"], q.Get(ref)),
+            q.Delete(q.Select("ref", q.Get(ref))),
             true
           )
         )

@@ -16,16 +16,17 @@ const NavLink = styled(NavbarLink)`
   }
 `;
 
-export const NavbarLight = ({ location, title }) => {
+export const NavbarLight = ({ image, location, title }) => {
   const [visible, setVisible] = useState(false);
   const toggleVisible = () => (visible ? setVisible(false) : setVisible(true));
   const hideLinks = location.pathname === "/";
 
   return (
     <Container fluid>
-      <Navbar expandSm light style={{ padding: 0 }}>
+      <Navbar expandSm light>
         <Container fluid>
-          <Heading>{title}</Heading>
+          {title && <Heading>{title}</Heading>}
+          {image && <img src={image}/>}
         </Container>
         <Nav start="true">
           {!hideLinks && (

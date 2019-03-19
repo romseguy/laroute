@@ -1,35 +1,40 @@
 import "react-responsive-tabs/styles.css";
 import { loremIpsum } from "lorem-ipsum";
-import React from "react";
+import React, { useState } from "react";
 import Tabs from "react-responsive-tabs";
-import { Box, Heading } from "rebass";
+import { Flex, Box, Button, Heading } from "rebass";
 import { format } from "date-fns";
+import RegisterForm from "../components/RegisterForm";
 
 const After = () => {
   const sessions = [
     {
-      number: 1,
+      title: 1,
       begin: format(new Date(2019, 3, 4), "DD/MM/YYYY"),
       end: format(new Date(2019, 3, 20), "DD/MM/YYYY"),
       text: loremIpsum({ count: 10 })
     },
     {
-      number: 2,
+      title: 2,
       begin: format(new Date(2019, 4, 4), "DD/MM/YYYY"),
       end: format(new Date(2019, 4, 20), "DD/MM/YYYY"),
       text: loremIpsum({ count: 10 })
     }
   ];
+
   const getTabs = () => {
-    return sessions.map(session => {
+    return sessions.map((session, key) => {
       return {
-        key: session.number,
-        title: `Session ${session.number}`,
+        key,
+        title: `Session ${session.title}`,
         getContent: () => (
-          <>
+          <Flex flexWrap="wrap">
             <Heading>{`Du ${session.begin} au ${session.end}`}</Heading>
-            {session.text}
-          </>
+
+            <Box p={4}>{session.text}</Box>
+
+            <RegisterForm session={session} />
+          </Flex>
         ),
         tabClassName: "tab",
         panelClassName: "panel"
@@ -38,9 +43,9 @@ const After = () => {
   };
 
   return (
-    <Box>
-      <Tabs items={getTabs()} />
-    </Box>
+    <div>
+      <Tabs items={getTabs()} transformWidth={768} />
+    </div>
   );
 };
 
