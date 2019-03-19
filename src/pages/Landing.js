@@ -4,7 +4,7 @@ import { Flex, Box, Button, Heading } from "rebass";
 import styled from "styled-components";
 import Link from "../components/AppLink";
 import ContactForm from "../components/ContactForm";
-const text = loremIpsum({ count: 9 });
+const text = `Auriez-vous envie de partager 3 semaines à vagabonder, randonner sur un parcours mêlant randonné, découverte de lieux alternatifs, découverte de savoirs faires responsables, paysages et divers divertissements dans le partage ?`;
 
 const Landing = () => {
   return (
