@@ -101,6 +101,8 @@ const Registrations = () => {
             <>
               {!sessionRegistrations ? (
                 <span>Chargement...</span>
+              ) : !sessionRegistrations.length ? (
+                <span>nada</span>
               ) : (
                 <Flex flexWrap="wrap">
                   {sessionRegistrations.map((sessionRegistration, key) => {
@@ -122,7 +124,9 @@ const Registrations = () => {
                             bg="white"
                             width="1/2"
                           >
-                            envoyé par {sessionRegistration.user.full_name}
+                            envoyé par{" "}
+                            {sessionRegistration.user.user_metadata.full_name} (
+                            {sessionRegistration.user.email})
                           </Card>
                         </Flex>
                       </SessionRegistrationCard>

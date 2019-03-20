@@ -39,7 +39,8 @@ export default function useFauna() {
       q.Create(q.Ref("classes/sessionRegistrations"), {
         data: newSessionRegistration,
         permissions: {
-          read: me,
+          //read: q.Ref("classes/users"),
+          read: "public",
           write: me
         }
       })
@@ -51,11 +52,7 @@ export default function useFauna() {
 
     const userPromises = data.map(row => {
       return client.query(q.Get(row.user)).then(user => {
-        console.log(user);
-        const {
-          data: { user_metadata }
-        } = user;
-        return user_metadata;
+        return user.data;
       });
     });
 
@@ -95,6 +92,7 @@ export default function useFauna() {
         )
       );
 
+      console.log("???", data);
       return unwrapUsers(data);
     }
   };

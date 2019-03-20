@@ -29,13 +29,39 @@ const AppContainer = styled.div`
   margin: 0 auto;
 `;
 
-const PrivateRoute = ({ as: Comp, identity, ...props }) => {
-  if (!identity || !identity.user) {
-    navigate("/accueil");
-    return <Home />;
+const AdminRoute = ({ as: Comp, ...props }) => {
+  const identity = useContext(UserCtx);
+  if (!identity.user) {
+    if (localStorage.getItem("faunaNetlifyUser")) {
+      return <span>Chargement...</span>;
+    } else {
+      navigate("/accueil");
+      return <Home />;
+    }
+  } else {
+    if (
+      !identity.user.app_metadata.roles ||
+      identity.user.app_metadata.roles.indexOf("admin") === -1
+    ) {
+      navigate("/accueil");
+      return <Home />;
+    }
+    return <Comp {...props} />;
   }
+};
 
-  return <Comp {...props} />;
+const PrivateRoute = ({ as: Comp, ...props }) => {
+  const identity = useContext(UserCtx);
+  if (!identity.user) {
+    if (localStorage.getItem("faunaNetlifyUser")) {
+      return <span>Chargement...</span>;
+    } else {
+      navigate("/accueil");
+      return <Home />;
+    }
+  } else {
+    return <Comp {...props} />;
+  }
 };
 
 export default function App(props) {
@@ -79,7 +105,8 @@ export default function App(props) {
                   <Sessions.Wrapper path="sessions">
                     <Sessions.Before path="avant" />
                     <Sessions.After path="apres" />
-                    <PrivateRoute as={Sessions.Registrations} path="demandes" />
+                    {/* <AdminRoute as={Sessions.Registrations} path="demandes" /> */}
+                    <Sessions.Registrations path="demandes" />
                     <NotFound default />
                   </Sessions.Wrapper>
 

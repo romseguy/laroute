@@ -25,10 +25,7 @@ export const NavbarLight = ({ image, location, title }) => {
   return (
     <Container fluid>
       <Navbar expandSm light>
-        <Container fluid>
-          {title && <Heading>{title}</Heading>}
-          {image && <img src={image} />}
-        </Container>
+        <Container fluid>{title && <Heading>{title}</Heading>}</Container>
         <Nav start="true">
           {!hideLinks && (
             <Button
@@ -65,17 +62,21 @@ export const NavbarLight = ({ image, location, title }) => {
             >
               Prochaines sessions
             </NavLink>
-            {user && user.user_metadata.role === "admin" && (
-              <NavLink
-                light
-                active={location.pathname === "/sessions/demandes"}
-                onClick={() => navigate("/sessions/demandes")}
-              >
-                Voir les demandes d'inscription
-              </NavLink>
-            )}
+            {user &&
+              user.app_metadata.roles &&
+              user.app_metadata.roles.indexOf("admin") !== -1 && (
+                <NavLink
+                  light
+                  active={location.pathname === "/sessions/demandes"}
+                  onClick={() => navigate("/sessions/demandes")}
+                >
+                  Voir les demandes d'inscription
+                </NavLink>
+              )}
           </Nav>
         )}
+
+        {image && <img src={image} />}
       </Navbar>
     </Container>
   );
