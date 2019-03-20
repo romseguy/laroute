@@ -105,8 +105,7 @@ export default function App(props) {
                   <Sessions.Wrapper path="sessions">
                     <Sessions.Before path="avant" />
                     <Sessions.After path="apres" />
-                    {/* <AdminRoute as={Sessions.Registrations} path="demandes" /> */}
-                    <Sessions.Registrations path="demandes" />
+                    <AdminRoute as={Sessions.Registrations} path="demandes" />
                     <NotFound default />
                   </Sessions.Wrapper>
 
