@@ -32,6 +32,7 @@ const sessions = [
 
 const After = () => {
   const { user } = useContext(UserCtx);
+  const [currentIndex, setCurrentIndex] = useState();
 
   const getTabs = () => {
     return sessions.map(session => {
@@ -63,7 +64,12 @@ const After = () => {
 
   return (
     <div>
-      <Tabs items={getTabs()} transformWidth={768} />
+      <Tabs
+        items={getTabs()}
+        transformWidth={768}
+        selectedTabKey={currentIndex}
+        onChange={index => setCurrentIndex(index)}
+      />
     </div>
   );
 };
