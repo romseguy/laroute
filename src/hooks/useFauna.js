@@ -32,6 +32,7 @@ export default function useFauna() {
       session: session.id
     };
 
+    // const me = q.Identity();
     const me = q.Select("ref", q.Get(q.Ref("classes/users/self")));
     newSessionRegistration.user = me;
 
@@ -40,7 +41,8 @@ export default function useFauna() {
         data: newSessionRegistration,
         permissions: {
           //read: q.Ref("classes/users"),
-          read: "public",
+          read: q.Class("users"),
+          //read: "public",
           write: me
         }
       })
