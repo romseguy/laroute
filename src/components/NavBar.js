@@ -17,8 +17,6 @@ const NavLink = styled(NavbarLink)`
 `;
 
 export const NavbarLight = ({ image, location, title }) => {
-  const [visible, setVisible] = useState(false);
-  const toggleVisible = () => (visible ? setVisible(false) : setVisible(true));
   const hideLinks = location.pathname === "/";
   const { user } = useContext(UserCtx);
 
@@ -26,21 +24,9 @@ export const NavbarLight = ({ image, location, title }) => {
     <Container fluid>
       <Navbar expandSm light>
         <Container fluid>{title && <Heading>{title}</Heading>}</Container>
-        <Nav start="true">
-          {!hideLinks && (
-            <Button
-              light
-              outline
-              toggleCollapse
-              expandSm
-              onClick={() => toggleVisible()}
-            >
-              <span>&#9776;</span>
-            </Button>
-          )}
-        </Nav>
+
         {!hideLinks && (
-          <Nav start="true" collapse expandSm hidden={!visible}>
+          <Nav start="true" collapse expandSm>
             <NavLink
               light
               active={location.pathname === "/accueil"}

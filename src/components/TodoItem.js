@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
-import classNames from 'classnames';
+import React, { Component } from "react";
+import ReactDOM from "react-dom";
+import classNames from "classnames";
 
 var ESCAPE_KEY = 27;
 var ENTER_KEY = 13;
@@ -61,9 +61,9 @@ class TodoItem extends Component {
    */
   componentDidUpdate(prevProps) {
     if (!prevProps.editing && this.props.editing) {
-      var node = ReactDOM.findDOMNode(this.EditFieldRef.current);
-      node.focus();
-      node.setSelectionRange(node.value.length, node.value.length);
+      // var node = ReactDOM.findDOMNode(this.EditFieldRef.current);
+      // node.focus();
+      // node.setSelectionRange(node.value.length, node.value.length);
     }
   }
 

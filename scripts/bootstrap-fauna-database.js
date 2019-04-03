@@ -61,7 +61,7 @@ function createFaunaDB(key) {
     )
     .then(
       () =>
-        console.log("==> 1. createusers success") ||
+        console.log("==> createusers success") ||
         client.query(
           q.Do(
             q.CreateClass({
@@ -75,7 +75,7 @@ function createFaunaDB(key) {
     )
     .then(
       () =>
-        console.log("==> 2. create sessionRegistrations success") ||
+        console.log("==> create sessionRegistrations success") ||
         client.query(
           q.Do(
             q.CreateIndex({
@@ -116,8 +116,10 @@ function createFaunaDB(key) {
         )
     )
     .then(
-      console.log("==> 3. create  eveyrthing success") ||
-        console.log.bind(console)
+      console.log("==> create indexes success") || console.log.bind(console)
+    )
+    .then(
+      console.log("==> create  everything success") || console.log.bind(console)
     )
     .catch(e => {
       if (e.message === "instance not unique") {
