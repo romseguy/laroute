@@ -28,7 +28,7 @@ function createUser(userData, password) {
 }
 
 function obtainToken(user, password) {
-  return client.query(q.Login(q.Identity(), password));
+  return client.query(q.Login(q.Select("ref", user), { password }));
 }
 
 export function handler(event, context, callback) {
