@@ -48,6 +48,13 @@ export const NavbarLight = ({ image, location, title }) => {
             >
               Prochaines sessions
             </NavLink>
+            <NavLink
+              light
+              active={location.pathname === "/contact"}
+              onClick={() => navigate("/contact")}
+            >
+              Contact
+            </NavLink>
             {user &&
               user.app_metadata.roles &&
               user.app_metadata.roles.indexOf("admin") !== -1 && (
