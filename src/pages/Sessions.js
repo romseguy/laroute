@@ -75,7 +75,12 @@ const After = () => {
 };
 
 const Before = () => {
-  return <Box>Before</Box>;
+  return (
+    <Box>
+      <Heading my={2}>Historique</Heading>
+      <p>La 1ère session ne s'est pas encore déroulée !</p>
+    </Box>
+  );
 };
 
 const Registrations = () => {

@@ -16,6 +16,10 @@ const NavLink = styled(NavbarLink)`
   }
 `;
 
+const NavImg = styled.img`
+  max-width: ${props => props.theme.screenSize.md};
+`;
+
 export const NavbarLight = ({ image, location, title }) => {
   const hideLinks = location.pathname === "/";
   const { user } = useContext(UserCtx);
@@ -23,7 +27,9 @@ export const NavbarLight = ({ image, location, title }) => {
   return (
     <Container fluid>
       <Navbar expandSm light>
-        <Container fluid>{title && <Heading>{title}</Heading>}</Container>
+        <Container fluid>
+          {title && <Heading onClick={() => navigate("/")}>{title}</Heading>}
+        </Container>
 
         {!hideLinks && (
           <Nav start="true" collapse expandSm>
@@ -32,7 +38,7 @@ export const NavbarLight = ({ image, location, title }) => {
               active={location.pathname === "/accueil"}
               onClick={() => navigate("/accueil")}
             >
-              Accueil
+              Déroulement
             </NavLink>
             <NavLink
               light
@@ -69,7 +75,7 @@ export const NavbarLight = ({ image, location, title }) => {
           </Nav>
         )}
 
-        {image && <img src={image} />}
+        {image && <NavImg src={image} />}
       </Navbar>
     </Container>
   );

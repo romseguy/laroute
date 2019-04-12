@@ -10,6 +10,8 @@ import useFauna from "./hooks/useFauna";
 import useNetlifyIdentity from "./hooks/useNetlifyIdentity";
 import { FaunaCtx, UserCtx } from "./contexts";
 import { NavbarLight } from "./components/NavBar";
+import ContactForm from "./components/ContactForm";
+import Contact from "./pages/Contact";
 import Landing from "./pages/Landing";
 import Home from "./pages/Home";
 import * as Sessions from "./pages/Sessions";
@@ -22,6 +24,14 @@ const NotFound = () => (
     <Link to="/home">Cliquez pour revenir à l'accueil.</Link>
   </div>
 );
+
+const AppHeader = styled(Heading)`
+  cursor: pointer;
+
+  &:hover {
+    color: blue;
+  }
+`;
 
 const AppContainer = styled.div`
   font-family: ${props => props.theme.container.fontFamily.default};
@@ -89,14 +99,18 @@ export default function App(props) {
             return (
               <AppContainer>
                 <Flex alignItems="center" my={2}>
-                  <Heading>Sur les chemins du partage</Heading>
+                  <AppHeader onClick={() => navigate("/")}>
+                    Sur les chemins du partage
+                  </AppHeader>
                   <Box mx="auto" />
                   {location.pathname !== "/" && <LoginButton />}
                 </Flex>
 
                 <NavbarLight
                   location={location}
-                  image={require("./assets/banner.jpg")}
+                  image={
+                    location.pathname === "/" && require("./assets/banner.jpg")
+                  }
                 />
 
                 <Router>
@@ -110,6 +124,7 @@ export default function App(props) {
                   </Sessions.Wrapper>
 
                   <Home path="/accueil" />
+                  <Contact path="/contact" />
 
                   <NotFound default />
                 </Router>
